@@ -18,7 +18,40 @@ class PortfolioSite {
         this.bindEvents();
         this.initPortfolio();
         this.initScroll();
-        setTimeout(() => this.loader.classList.add('hidden'), 800);
+        this.initLoader();
+    }
+
+    initLoader() {
+        const name = "Фахартымова Диана";
+        const nameElement = document.getElementById('loaderName');
+        nameElement.innerHTML = '';
+        
+        // Набираем текст по буквам
+        let i = 0;
+        const typingSpeed = 100; // 100ms на букву
+        const pauseAfterTyping = 1000; // 1 секунда паузы
+        
+        const typeLetter = () => {
+            if (i < name.length) {
+                nameElement.innerHTML += name.charAt(i);
+                i++;
+                setTimeout(typeLetter, typingSpeed);
+            } else {
+                // После завершения набора текста ждем и скрываем прелоадер
+                setTimeout(() => {
+                    this.loader.classList.add('hidden');
+                    // После скрытия прелоадера убираем его из DOM
+                    setTimeout(() => {
+                        if (this.loader.parentNode) {
+                            this.loader.parentNode.removeChild(this.loader);
+                        }
+                    }, 500);
+                }, pauseAfterTyping);
+            }
+        };
+        
+        // Начинаем анимацию с небольшой задержкой
+        setTimeout(typeLetter, 500);
     }
     
     cacheElements() {

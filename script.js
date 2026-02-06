@@ -1,12 +1,12 @@
 class PortfolioSite {
     constructor() {
         this.portfolioImages = [
-            { caption: 'Fashion портрет' },
-            { caption: 'Свадебная фотосъёмка' },
-            { caption: 'Индивидуальная съёмка' },
-            { caption: 'Парная фотосессия' },
-            { caption: 'Fashion editorial' },
-            { caption: 'Портрет на плёнку' }
+            { caption: 'Роспись детской комнаты' },
+            { caption: 'Аэрография на стене' },
+            { caption: 'Граффити на фасаде' },
+            { caption: 'Офисная роспись' },
+            { caption: 'Художественная роспись' },
+            { caption: 'Картина на заказ' }
         ];
         
         this.currentImageIndex = 0;
@@ -31,7 +31,6 @@ class PortfolioSite {
         this.serviceSelect = document.getElementById('serviceType');
         this.selectedServiceField = document.getElementById('selectedService');
         this.bookButtons = document.querySelectorAll('.btn-book');
-        this.faqItems = document.querySelectorAll('.faq-item');
         this.portfolioGrid = document.getElementById('portfolioGrid');
         this.lightbox = document.getElementById('lightbox');
         this.lightboxClose = document.getElementById('lightboxClose');
@@ -55,11 +54,6 @@ class PortfolioSite {
                 const service = btn.dataset.service;
                 this.openModal(service);
             });
-        });
-        
-        this.faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            question.addEventListener('click', () => this.toggleFAQ(item));
         });
         
         document.addEventListener('keydown', (e) => this.handleKeydown(e));
@@ -122,23 +116,14 @@ class PortfolioSite {
         }
     }
     
-    toggleFAQ(item) {
-        this.faqItems.forEach(other => {
-            if (other !== item && other.classList.contains('active')) {
-                other.classList.remove('active');
-            }
-        });
-        item.classList.toggle('active');
-    }
-    
     openModal(service = '') {
         if (service) {
             this.selectedServiceField.value = service;
             
-            if (service.includes('Индивидуальная')) this.serviceSelect.value = 'individual';
-            else if (service.includes('Парная')) this.serviceSelect.value = 'couple';
-            else if (service.includes('Свадебная')) this.serviceSelect.value = 'wedding';
-            else if (service.includes('Fashion')) this.serviceSelect.value = 'fashion';
+            if (service.includes('Роспись')) this.serviceSelect.value = 'painting';
+            else if (service.includes('Аэрография')) this.serviceSelect.value = 'airbrush';
+            else if (service.includes('Граффити')) this.serviceSelect.value = 'graffiti';
+            else if (service.includes('Картины')) this.serviceSelect.value = 'canvas';
         }
         
         this.modal.classList.add('active');

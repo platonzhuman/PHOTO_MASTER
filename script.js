@@ -23,35 +23,97 @@ class PortfolioSite {
 
     initLoader() {
         const name = "Фахартымова Диана";
+        const subtitle = "INFOMARKET";
         const nameElement = document.getElementById('loaderName');
+        const subtitleElement = document.getElementById('loaderSubtitle');
+        
         nameElement.innerHTML = '';
+        subtitleElement.innerHTML = '';
         
-        // Набираем текст по буквам
-        let i = 0;
-        const typingSpeed = 100; // 100ms на букву
-        const pauseAfterTyping = 1000; // 1 секунда паузы
+        let nameIndex = 0;
+        let subtitleIndex = 0;
+        const nameSpeed = 80;
+        const subtitleSpeed = 40;
         
-        const typeLetter = () => {
-            if (i < name.length) {
-                nameElement.innerHTML += name.charAt(i);
-                i++;
-                setTimeout(typeLetter, typingSpeed);
-            } else {
-                // После завершения набора текста ждем и скрываем прелоадер
-                setTimeout(() => {
-                    this.loader.classList.add('hidden');
-                    // После скрытия прелоадера убираем его из DOM
+        const typeNameLetter = () => {
+            if (nameIndex < name.length) {
+                const letter = name.charAt(nameIndex);
+                
+                // Обработка пробела как отдельного элемента с классом space
+                if (letter === ' ') {
+                    const space = document.createElement('span');
+                    space.className = 'letter space';
+                    space.innerHTML = '&nbsp;'; // неразрывный пробел
+                    nameElement.appendChild(space);
+                    
+                    // Пробел не анимируем, он сразу видим
+                    space.classList.add('visible');
+                } else {
+                    const span = document.createElement('span');
+                    span.className = 'letter';
+                    span.textContent = letter;
+                    nameElement.appendChild(span);
+                    
+                    // Анимируем появление буквы
                     setTimeout(() => {
-                        if (this.loader.parentNode) {
-                            this.loader.parentNode.removeChild(this.loader);
-                        }
-                    }, 500);
-                }, pauseAfterTyping);
+                        span.classList.add('visible');
+                    }, 10);
+                }
+                
+                nameIndex++;
+                
+                // Задержка с небольшим рандомом для естественности
+                const delay = nameSpeed + (Math.random() * 30 - 15);
+                setTimeout(typeNameLetter, delay);
+            } else {
+                // Завершили имя, прячем курсор
+                setTimeout(() => {
+                    document.querySelector('.loader-cursor')?.style.setProperty('opacity', '0');
+                    setTimeout(typeSubtitleLetter, 200);
+                }, 200);
             }
         };
         
-        // Начинаем анимацию с небольшой задержкой
-        setTimeout(typeLetter, 500);
+        const typeSubtitleLetter = () => {
+            if (subtitleIndex < subtitle.length) {
+                const letter = subtitle.charAt(subtitleIndex);
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = letter;
+                
+                subtitleElement.appendChild(span);
+                
+                // Анимируем появление буквы
+                setTimeout(() => {
+                    span.classList.add('visible');
+                }, 10);
+                
+                subtitleIndex++;
+                
+                // Задержка в 2 раза быстрее с небольшим рандомом
+                const delay = subtitleSpeed + (Math.random() * 20 - 10);
+                setTimeout(typeSubtitleLetter, delay);
+            } else {
+                // Завершили подзаголовок, ждем и скрываем
+                setTimeout(() => {
+                    this.finishLoader();
+                }, 800);
+            }
+        };
+        
+        // Начинаем через небольшую задержку
+        setTimeout(() => {
+            typeNameLetter();
+        }, 300);
+    }
+    finishLoader() {
+        this.loader.classList.add('hidden');
+        
+        setTimeout(() => {
+            if (this.loader?.parentNode) {
+                this.loader.parentNode.removeChild(this.loader);
+            }
+        }, 500);
     }
     
     cacheElements() {
@@ -74,13 +136,13 @@ class PortfolioSite {
     }
     
     bindEvents() {
-        this.bookingBtn.addEventListener('click', () => this.openModal());
-        this.modalOverlay.addEventListener('click', () => this.closeModal());
-        this.modalClose.addEventListener('click', () => this.closeModal());
-        this.bookingForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
-        this.lightboxClose.addEventListener('click', () => this.closeLightbox());
-        this.lightboxPrev.addEventListener('click', () => this.showPrevImage());
-        this.lightboxNext.addEventListener('click', () => this.showNextImage());
+        this.bookingBtn?.addEventListener('click', () => this.openModal());
+        this.modalOverlay?.addEventListener('click', () => this.closeModal());
+        this.modalClose?.addEventListener('click', () => this.closeModal());
+        this.bookingForm?.addEventListener('submit', (e) => this.handleFormSubmit(e));
+        this.lightboxClose?.addEventListener('click', () => this.closeLightbox());
+        this.lightboxPrev?.addEventListener('click', () => this.showPrevImage());
+        this.lightboxNext?.addEventListener('click', () => this.showNextImage());
         
         this.bookButtons.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -94,6 +156,8 @@ class PortfolioSite {
     }
     
     initPortfolio() {
+        if (!this.portfolioGrid) return;
+        
         this.portfolioGrid.innerHTML = '';
         
         this.portfolioImages.forEach((image, index) => {
@@ -166,7 +230,7 @@ class PortfolioSite {
     closeModal() {
         this.modal.classList.remove('active');
         document.body.style.overflow = 'auto';
-        setTimeout(() => this.bookingForm.reset(), 300);
+        setTimeout(() => this.bookingForm?.reset(), 300);
     }
     
     handleFormSubmit(e) {
@@ -190,6 +254,8 @@ class PortfolioSite {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams(data).toString()
+            }).catch(error => {
+                console.error('Ошибка отправки формы:', error);
             });
         }, 1000);
     }
@@ -225,11 +291,11 @@ class PortfolioSite {
     
     handleKeydown(e) {
         if (e.key === 'Escape') {
-            if (this.modal.classList.contains('active')) this.closeModal();
-            if (this.lightbox.classList.contains('active')) this.closeLightbox();
+            if (this.modal?.classList.contains('active')) this.closeModal();
+            if (this.lightbox?.classList.contains('active')) this.closeLightbox();
         }
         
-        if (this.lightbox.classList.contains('active')) {
+        if (this.lightbox?.classList.contains('active')) {
             if (e.key === 'ArrowLeft') this.showPrevImage();
             if (e.key === 'ArrowRight') this.showNextImage();
         }

@@ -156,7 +156,7 @@ body::before {
     position: relative;
 }
 
-/* ===== HERO ===== */
+/* ===== ОБНОВЛЕННЫЙ HERO С ФОНОМ ===== */
 .hero {
     height: 100vh;
     min-height: 600px;
@@ -170,73 +170,56 @@ body::before {
     overflow: hidden;
 }
 
-.hero-gradient {
+.hero-photo-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--merlot) 0%, var(--red-velvet) 50%, var(--cherry) 100%);
-    animation: gradientShift 15s ease infinite;
-    background-size: 400% 400%;
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 30% 30%, transparent 20%, rgba(38,5,5,0.85) 80%),
-        linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 50%, rgba(0,0,0,0.3) 100%);
+    background-image: url('./images/obo_mne_photo.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     z-index: 1;
 }
 
-/* Фото в герое */
-.hero-elegant-frame {
-    position: relative;
-    z-index: 3;
-    width: 250px;
-    height: 250px;
-    margin: 0 auto 40px auto;
-}
-
-.elegant-frame-inner {
+/* Затемнение фона для лучшей читаемости текста */
+.hero-photo-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    border: 2px solid rgba(229, 222, 214, 0.6);
+    background: linear-gradient(135deg, 
+        rgba(38, 5, 5, 0.85) 0%, 
+        rgba(172, 128, 128, 0.75)75) 50%, 
+        rgba(32, 19, 19, 0.7) 100%;
+    z-index: 2;
 }
 
-.frame-photo-container {
-    width: 100%;
-    height: 100%;
+/* Анимация для плавного появления фона */
+@keyframes fadeInBackground {
+    from {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.frame-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.hero-photo-bg {
+    animation: fadeInBackground 1.2s ease-out forwards;
 }
 
-.frame-decoration {
-    display: none;
-}
-
-/* Контент героя */
+/* Контент поверх фона */
 .hero-content {
     position: relative;
-    z-index: 4;
+    z-index: 3;
     width: 100%;
+    padding-top: 310px;
     max-width: 800px;
     text-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
@@ -247,6 +230,7 @@ body::before {
     border-radius: 12px;
     border: 1px solid rgba(229, 222, 214, 0.3);
     margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
 }
 
 .hero-name {
@@ -259,6 +243,7 @@ body::before {
     flex-direction: column;
     gap: 0.3rem;
     line-height: 1.1;
+    animation: textGlow 3s ease-in-out infinite alternate;
 }
 
 .name-first {
@@ -299,30 +284,83 @@ body::before {
     line-height: 1.5;
 }
 
-.scroll-indicator {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--satin);
-    font-size: 1.5rem;
-    opacity: 0.9;
-    animation: float 3s ease-in-out infinite;
-    z-index: 2;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    background: rgba(38, 5, 5, 0.2);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(229, 222, 214, 0.3);
+@keyframes textGlow {
+    0% { text-shadow: 0 5px 15px rgba(0,0,0,0.6); }
+    100% { text-shadow: 0 5px 25px rgba(127, 15, 28, 0.8); }
 }
 
-@keyframes float {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-10px); }
+/* Адаптивность для hero-фона */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 500px;
+    }
+    
+    .hero-name-wrapper {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-name {
+        font-size: 1.3rem;
+        letter-spacing: 0.1em;
+    }
+    
+    .hero-profession {
+        font-size: 0.9rem;
+    }
+    
+    .hero-experience {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 450px;
+        padding: 2rem 1rem;
+    }
+    
+    .hero-photo-bg {
+        background-attachment: scroll;
+    }
+    
+    .hero-name-wrapper {
+        padding: 1rem;
+        background: rgba(38, 5, 5, 0.8);
+    }
+    
+    .hero-name {
+        font-size: 1.2rem;
+        letter-spacing: 0.08em;
+    }
+    
+    .name-first, .name-last {
+        display: block;
+    }
+    
+    .hero-title-divider {
+        margin: 1rem auto;
+        width: 60px;
+    }
+}
+
+/* Для очень высоких экранов - чтобы фото не растягивалось */
+@media (min-height: 1200px) {
+    .hero {
+        min-height: 800px;
+    }
+    
+    .hero-photo-bg {
+        background-size: contain;
+        background-color: var(--merlot);
+    }
+}
+
+/* Параллакс-эффект при скролле на десктопах */
+@media (min-width: 768px) {
+    .hero-photo-bg {
+        background-attachment: fixed;
+    }
 }
 
 /* ===== ОБО МНЕ ===== */
@@ -332,14 +370,14 @@ body::before {
 
 .about-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr;
     gap: 3rem;
     align-items: center;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 776px) {
     .about-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr ;
         gap: 5rem;
     }
 }
@@ -348,10 +386,14 @@ body::before {
     font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.8;
 }
-
+.pi{
+    background-color: #510D0B;
+    border-radius: 20px;
+    color: white;
+}
 .about-text p {
     margin-bottom: 1.5rem;
-    background: rgba(242, 241, 234, 0.7);
+    background-color: #510D0B;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -391,7 +433,7 @@ body::before {
 .why-item {
     text-align: center;
     padding: 2.5rem;
-    background: rgba(30, 26, 25, 0.3);
+    background: rgba(112, 91, 86, 0.3);
     border-radius: 16px;
     border: 1px solid rgba(229, 222, 214, 0.1);
     transition: var(--transition);

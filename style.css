@@ -2255,3 +2255,30 @@ body::before {
     position: relative !important;
     margin-top: 0 !important;
 }
+
+@media (max-width: 480px) {
+    .hero-elegant-frame {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 20px;
+    }
+    
+    .hero-name-wrapper {
+        padding: 1.5rem;
+    }
+    
+    /* ИСПРАВЛЕНИЕ: уменьшаем шрифт имени */
+    .hero-name {
+        font-size: 1.3rem !important;
+        letter-spacing: 0.1em;
+        line-height: 1.2;
+    }
+    
+    .hero-profession {
+        font-size: 0.9rem;
+    }
+    
+    .hero-experience {
+        font-size: 0.8rem;
+    }
+}

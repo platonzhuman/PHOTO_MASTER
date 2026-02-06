@@ -28,12 +28,30 @@
         <section class="hero" id="hero">
             <div class="hero-gradient"></div>
             <div class="hero-overlay"></div>
+            
+            <!-- Элегантная рамка с фото -->
+            <div class="hero-elegant-frame">
+                <div class="elegant-frame-inner">
+                    <div class="frame-photo-container">
+                        <img src="./images/main_photo.png" 
+                             alt="Фахартымова Диана" class="frame-photo">
+                    </div>
+                    <div class="frame-decoration"></div>
+                </div>
+            </div>
+            
             <div class="container">
                 <div class="hero-content">
-                    <h1 class="hero-name">Фахартымова Диана</h1>
-                    <div class="hero-subtitle">
-                        <span class="hero-profession">ХУДОЖНИК</span>
-                        <span class="hero-experience">Роспись, граффити, аэрография на стенах</span>
+                    <div class="hero-name-wrapper">
+                        <h1 class="hero-name">
+                            <span class="name-first">Фахартымова</span>
+                            <span class="name-last">Диана</span>
+                        </h1>
+                        <div class="hero-title-divider"></div>
+                        <div class="hero-subtitle">
+                            <span class="hero-profession">ПРОФЕССИОНАЛЬНЫЙ ХУДОЖНИК</span>
+                            <span class="hero-experience">Роспись, граффити, аэрография на стенах • 12 лет опыта</span>
+                        </div>
                     </div>
                     <button class="btn btn-outline" id="bookingBtn">Связаться со мной</button>
                 </div>
@@ -53,10 +71,9 @@
                         <p>При работе с фасадами домов учитываю архитектурные особенности и городскую среду, создавая гармоничные композиции. Мой профессионализм — в умении слышать заказчика и воплощать его идеи с безупречным качеством исполнения.</p>
                     </div>
                     <div class="about-photo">
-                        <div class="photo-frame">
-                            <div class="photo-placeholder">
-                                <span>МОЕ ФОТО</span>
-                            </div>
+                        <div class="simple-photo-frame">
+                            <img src="./images/obo_mne_photo.png" 
+                                 alt="Фахартымова Диана" class="simple-photo">
                         </div>
                     </div>
                 </div>
@@ -96,9 +113,7 @@
                 <h2 class="section-title">ПОРТФОЛИО</h2>
                 <div class="portfolio-carousel">
                     <div class="carousel-container">
-                        <div class="carousel-track" id="portfolioCarousel">
-                            <!-- Слайды будут добавлены через JS -->
-                        </div>
+                        <div class="carousel-track" id="portfolioCarousel"></div>
                         <button class="carousel-btn carousel-prev">
                             <i class="fas fa-chevron-left"></i>
                         </button>
@@ -116,7 +131,10 @@
                 <h2 class="section-title">УСЛУГИ</h2>
                 <div class="services-grid">
                     <div class="service-card">
-                        <div class="service-image"></div>
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                                 alt="Роспись стен">
+                        </div>
                         <div class="service-content">
                             <h3 class="service-title">Роспись стен</h3>
                             <p class="service-description">Художественная роспись стен в интерьерах и экстерьерах. Индивидуальный дизайн под ваше пространство.</p>
@@ -128,7 +146,10 @@
                     </div>
                     
                     <div class="service-card">
-                        <div class="service-image"></div>
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1158&q=80" 
+                                 alt="Аэрография">
+                        </div>
                         <div class="service-content">
                             <h3 class="service-title">Аэрография</h3>
                             <p class="service-description">Современная аэрография на различных поверхностях с плавными цветовыми переходами.</p>
@@ -140,7 +161,10 @@
                     </div>
                     
                     <div class="service-card">
-                        <div class="service-image"></div>
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80" 
+                                 alt="Граффити">
+                        </div>
                         <div class="service-content">
                             <h3 class="service-title">Граффити</h3>
                             <p class="service-description">Создание уличных граффити с использованием профессиональных баллончиков и материалов.</p>
@@ -152,7 +176,10 @@
                     </div>
                     
                     <div class="service-card">
-                        <div class="service-image"></div>
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1130&q=80" 
+                                 alt="Картины на заказ">
+                        </div>
                         <div class="service-content">
                             <h3 class="service-title">Картины на заказ</h3>
                             <p class="service-description">Написание картин маслом, акрилом в любом стиле и размере по вашему желанию.</p>
@@ -204,7 +231,8 @@
                             </div>
                             <div class="contact-details">
                                 <h3>Фото</h3>
-                                <p>МОЕ ФОТО</p>
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Фото художника" class="contact-photo">
                                 <p>Художник Фахартымова Диана</p>
                             </div>
                         </div>
@@ -233,7 +261,7 @@
                                 </div>
                             </a>
                             
-                            <a href="#" class="social-card instagram" target="_blank">
+                            <a href="https://instagram.com/ваш_аккаунт" class="social-card instagram" target="_blank">
                                 <div class="social-icon">
                                     <i class="fab fa-instagram"></i>
                                 </div>

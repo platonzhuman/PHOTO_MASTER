@@ -1,42 +1,27 @@
 class PortfolioSite {
     constructor() {
         this.portfolioItems = [
-            { 
-                image: 'https://via.placeholder.com/1200x675/7F0F1C/FFFFFF?text=Роспись+детской+комнаты',
-                caption: 'Роспись детской комнаты',
-                description: 'Сказочный мир для вашего ребенка'
-            },
-            { 
-                image: 'https://via.placeholder.com/1200x675/510D0B/FFFFFF?text=Аэрография+на+стене',
-                caption: 'Аэрография на стене',
-                description: 'Современная техника с плавными переходами'
-            },
-            { 
-                image: 'https://via.placeholder.com/1200x675/260505/FFFFFF?text=Граффити+на+фасаде',
-                caption: 'Граффити на фасаде',
-                description: 'Уличное искусство в городской среде'
-            },
-            { 
-                image: 'https://via.placeholder.com/1200x675/7F0F1C/FFFFFF?text=Офисная+роспись',
-                caption: 'Офисная роспись',
-                description: 'Корпоративный стиль и мотивация'
-            },
-            { 
-                image: 'https://via.placeholder.com/1200x675/510D0B/FFFFFF?text=Художественная+роспись',
-                caption: 'Художественная роспись',
-                description: 'Классическая техника в интерьере'
-            },
-            { 
-                image: 'https://via.placeholder.com/1200x675/260505/FFFFFF?text=Картина+на+заказ',
-                caption: 'Картина на заказ',
-                description: 'Индивидуальная работа маслом'
-            }
-        ];
+            'IMG_0296', 'IMG_0745', 'IMG_0818', 'IMG_1310', 'IMG_1311', 'IMG_1633', 'IMG_1899',
+            'IMG_1933', 'IMG_2032', 'IMG_2118', 'IMG_2182', 'IMG_2256', 'IMG_2373', 'IMG_2400',
+            'IMG_2473', 'IMG_2815', 'IMG_2869', 'IMG_2952', 'IMG_3004', 'IMG_3234', 'IMG_3239',
+            'IMG_3333', 'IMG_3334', 'IMG_3348', 'IMG_3448', 'IMG_3449', 'IMG_3645', 'IMG_3652',
+            'IMG_3673', 'IMG_3676', 'IMG_3683', 'IMG_3701', 'IMG_3721', 'IMG_3777', 'IMG_4042',
+            'IMG_4048', 'IMG_4119', 'IMG_4198', 'IMG_5045', 'IMG_5641', 'IMG_5742', 'IMG_5744',
+            'IMG_5749', 'IMG_5756', 'IMG_5758', 'IMG_5759', 'IMG_5762', 'IMG_5765', 'IMG_7040',
+            'IMG_7430', 'IMG_7449'
+        ].map(name => ({
+            image: `./images/portfolio/${name}.jpg`,
+            caption: '',
+            description: ''
+        }));
         
         this.currentSlide = 0;
         this.autoSlideInterval = null;
-        this.autoSlideDelay = 5000; // 5 секунд
+        this.autoSlideDelay = 5000;
         this.isAutoPlaying = true;
+        this.visibleDots = 6; // Всегда показываем 6 точек
+        this.totalSlides = this.portfolioItems.length;
+        this.dotIndices = []; // Индексы, которые представляют текущие 6 точек
         this.init();
     }
     
@@ -46,6 +31,7 @@ class PortfolioSite {
         this.initPortfolioCarousel();
         this.initScroll();
         this.initLoader();
+        this.updateDotIndices();
         this.startAutoSlide();
     }
 
@@ -177,6 +163,30 @@ class PortfolioSite {
         window.addEventListener('scroll', () => this.handleScroll());
     }
     
+    // Обновляем индексы для 6 точек
+    updateDotIndices() {
+        this.dotIndices = [];
+        
+        if (this.totalSlides <= this.visibleDots) {
+            // Если слайдов меньше или равно 6, показываем все
+            for (let i = 0; i < this.totalSlides; i++) {
+                this.dotIndices.push(i);
+            }
+        } else {
+            // Если слайдов больше 6, показываем текущую позицию в центре
+            let startIndex = this.currentSlide - Math.floor(this.visibleDots / 2);
+            if (startIndex < 0) {
+                startIndex = 0;
+            } else if (startIndex + this.visibleDots > this.totalSlides) {
+                startIndex = this.totalSlides - this.visibleDots;
+            }
+            
+            for (let i = 0; i < this.visibleDots; i++) {
+                this.dotIndices.push((startIndex + i) % this.totalSlides);
+            }
+        }
+    }
+    
     initPortfolioCarousel() {
         if (!this.portfolioCarousel) return;
         
@@ -191,22 +201,22 @@ class PortfolioSite {
             slide.dataset.index = index;
             
             slide.innerHTML = `
-                <img src="${item.image}" alt="${item.caption}" loading="lazy">
-                <div class="carousel-caption">
-                    <h3>${item.caption}</h3>
-                    <p>${item.description}</p>
-                </div>
+                <img src="${item.image}" alt="" loading="lazy">
             `;
             
             slide.addEventListener('click', () => this.openLightbox(index));
             this.portfolioCarousel.appendChild(slide);
-            
-            // Создаем точки навигации
+        });
+        
+        // Создаем 6 точек навигации
+        this.updateDotIndices();
+        this.dotIndices.forEach((slideIndex, dotIndex) => {
             const dot = document.createElement('button');
             dot.className = 'carousel-dot';
-            dot.dataset.index = index;
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => this.goToSlide(index));
+            dot.dataset.slideIndex = slideIndex;
+            dot.dataset.dotIndex = dotIndex;
+            if (slideIndex === this.currentSlide) dot.classList.add('active');
+            dot.addEventListener('click', () => this.goToSlide(slideIndex));
             this.carouselDots.appendChild(dot);
         });
         
@@ -220,26 +230,32 @@ class PortfolioSite {
         const slideWidth = 100; // 100% на слайд
         this.portfolioCarousel.style.transform = `translateX(-${this.currentSlide * slideWidth}%)`;
         
-        // Обновляем активную точку
-        document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentSlide);
+        // Обновляем индексы точек и активную точку
+        this.updateDotIndices();
+        
+        // Обновляем точки в DOM
+        const dots = document.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, dotIndex) => {
+            const slideIndex = this.dotIndices[dotIndex];
+            dot.dataset.slideIndex = slideIndex;
+            dot.classList.toggle('active', slideIndex === this.currentSlide);
         });
     }
     
     nextSlide() {
-        this.currentSlide = (this.currentSlide + 1) % this.portfolioItems.length;
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
         this.updateCarousel();
         this.resetAutoSlide();
     }
     
     prevSlide() {
-        this.currentSlide = (this.currentSlide - 1 + this.portfolioItems.length) % this.portfolioItems.length;
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
         this.updateCarousel();
         this.resetAutoSlide();
     }
     
-    goToSlide(index) {
-        this.currentSlide = index;
+    goToSlide(slideIndex) {
+        this.currentSlide = slideIndex;
         this.updateCarousel();
         this.resetAutoSlide();
     }
@@ -353,8 +369,8 @@ class PortfolioSite {
         const image = this.portfolioItems[this.currentImageIndex];
         
         this.lightboxImage.src = image.image;
-        this.lightboxImage.alt = image.caption;
-        this.lightboxCaption.textContent = image.caption;
+        this.lightboxImage.alt = '';
+        this.lightboxCaption.textContent = '';
         this.lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -366,19 +382,19 @@ class PortfolioSite {
     }
     
     showPrevImage() {
-        this.currentImageIndex = (this.currentImageIndex - 1 + this.portfolioItems.length) % this.portfolioItems.length;
+        this.currentImageIndex = (this.currentImageIndex - 1 + this.totalSlides) % this.totalSlides;
         const image = this.portfolioItems[this.currentImageIndex];
         this.lightboxImage.src = image.image;
-        this.lightboxImage.alt = image.caption;
-        this.lightboxCaption.textContent = image.caption;
+        this.lightboxImage.alt = '';
+        this.lightboxCaption.textContent = '';
     }
     
     showNextImage() {
-        this.currentImageIndex = (this.currentImageIndex + 1) % this.portfolioItems.length;
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.totalSlides;
         const image = this.portfolioItems[this.currentImageIndex];
         this.lightboxImage.src = image.image;
-        this.lightboxImage.alt = image.caption;
-        this.lightboxCaption.textContent = image.caption;
+        this.lightboxImage.alt = '';
+        this.lightboxCaption.textContent = '';
     }
     
     handleKeydown(e) {

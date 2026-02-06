@@ -2230,3 +2230,25 @@ body::before {
     opacity: 0;
     animation-delay: 0.3s;
 }
+
+/* Исправление для размещения фото сверху */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-elegant-frame {
+    position: relative !important;
+    margin: 0 auto 40px auto !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+}
+
+.hero-content {
+    position: relative !important;
+    margin-top: 0 !important;
+}

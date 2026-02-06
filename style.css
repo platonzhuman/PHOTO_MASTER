@@ -1920,6 +1920,9 @@ body::before {
         letter-spacing: 0.2em;
         font-size: clamp(2rem, 6vw, 3.5rem);
     }
+    .name-first{
+        font-size: 20pt;
+    }
     
     .section-title {
         font-size: clamp(1.8rem, 4vw, 2.5rem);

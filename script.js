@@ -1,24 +1,52 @@
 class PortfolioSite {
     constructor() {
-        this.portfolioImages = [
-            { caption: 'Роспись детской комнаты' },
-            { caption: 'Аэрография на стене' },
-            { caption: 'Граффити на фасаде' },
-            { caption: 'Офисная роспись' },
-            { caption: 'Художественная роспись' },
-            { caption: 'Картина на заказ' }
+        this.portfolioItems = [
+            { 
+                image: 'https://via.placeholder.com/1200x675/7F0F1C/FFFFFF?text=Роспись+детской+комнаты',
+                caption: 'Роспись детской комнаты',
+                description: 'Сказочный мир для вашего ребенка'
+            },
+            { 
+                image: 'https://via.placeholder.com/1200x675/510D0B/FFFFFF?text=Аэрография+на+стене',
+                caption: 'Аэрография на стене',
+                description: 'Современная техника с плавными переходами'
+            },
+            { 
+                image: 'https://via.placeholder.com/1200x675/260505/FFFFFF?text=Граффити+на+фасаде',
+                caption: 'Граффити на фасаде',
+                description: 'Уличное искусство в городской среде'
+            },
+            { 
+                image: 'https://via.placeholder.com/1200x675/7F0F1C/FFFFFF?text=Офисная+роспись',
+                caption: 'Офисная роспись',
+                description: 'Корпоративный стиль и мотивация'
+            },
+            { 
+                image: 'https://via.placeholder.com/1200x675/510D0B/FFFFFF?text=Художественная+роспись',
+                caption: 'Художественная роспись',
+                description: 'Классическая техника в интерьере'
+            },
+            { 
+                image: 'https://via.placeholder.com/1200x675/260505/FFFFFF?text=Картина+на+заказ',
+                caption: 'Картина на заказ',
+                description: 'Индивидуальная работа маслом'
+            }
         ];
         
-        this.currentImageIndex = 0;
+        this.currentSlide = 0;
+        this.autoSlideInterval = null;
+        this.autoSlideDelay = 5000; // 5 секунд
+        this.isAutoPlaying = true;
         this.init();
     }
     
     init() {
         this.cacheElements();
         this.bindEvents();
-        this.initPortfolio();
+        this.initPortfolioCarousel();
         this.initScroll();
         this.initLoader();
+        this.startAutoSlide();
     }
 
     initLoader() {
@@ -39,14 +67,11 @@ class PortfolioSite {
             if (nameIndex < name.length) {
                 const letter = name.charAt(nameIndex);
                 
-                // Обработка пробела как отдельного элемента с классом space
                 if (letter === ' ') {
                     const space = document.createElement('span');
                     space.className = 'letter space';
-                    space.innerHTML = '&nbsp;'; // неразрывный пробел
+                    space.innerHTML = '&nbsp;';
                     nameElement.appendChild(space);
-                    
-                    // Пробел не анимируем, он сразу видим
                     space.classList.add('visible');
                 } else {
                     const span = document.createElement('span');
@@ -54,19 +79,15 @@ class PortfolioSite {
                     span.textContent = letter;
                     nameElement.appendChild(span);
                     
-                    // Анимируем появление буквы
                     setTimeout(() => {
                         span.classList.add('visible');
                     }, 10);
                 }
                 
                 nameIndex++;
-                
-                // Задержка с небольшим рандомом для естественности
                 const delay = nameSpeed + (Math.random() * 30 - 15);
                 setTimeout(typeNameLetter, delay);
             } else {
-                // Завершили имя, прячем курсор
                 setTimeout(() => {
                     document.querySelector('.loader-cursor')?.style.setProperty('opacity', '0');
                     setTimeout(typeSubtitleLetter, 200);
@@ -83,29 +104,25 @@ class PortfolioSite {
                 
                 subtitleElement.appendChild(span);
                 
-                // Анимируем появление буквы
                 setTimeout(() => {
                     span.classList.add('visible');
                 }, 10);
                 
                 subtitleIndex++;
-                
-                // Задержка в 2 раза быстрее с небольшим рандомом
                 const delay = subtitleSpeed + (Math.random() * 20 - 10);
                 setTimeout(typeSubtitleLetter, delay);
             } else {
-                // Завершили подзаголовок, ждем и скрываем
                 setTimeout(() => {
                     this.finishLoader();
                 }, 800);
             }
         };
         
-        // Начинаем через небольшую задержку
         setTimeout(() => {
             typeNameLetter();
         }, 300);
     }
+    
     finishLoader() {
         this.loader.classList.add('hidden');
         
@@ -126,7 +143,10 @@ class PortfolioSite {
         this.serviceSelect = document.getElementById('serviceType');
         this.selectedServiceField = document.getElementById('selectedService');
         this.bookButtons = document.querySelectorAll('.btn-book');
-        this.portfolioGrid = document.getElementById('portfolioGrid');
+        this.portfolioCarousel = document.getElementById('portfolioCarousel');
+        this.carouselDots = document.getElementById('carouselDots');
+        this.prevBtn = document.querySelector('.carousel-prev');
+        this.nextBtn = document.querySelector('.carousel-next');
         this.lightbox = document.getElementById('lightbox');
         this.lightboxClose = document.getElementById('lightboxClose');
         this.lightboxImage = document.getElementById('lightboxImage');
@@ -143,6 +163,8 @@ class PortfolioSite {
         this.lightboxClose?.addEventListener('click', () => this.closeLightbox());
         this.lightboxPrev?.addEventListener('click', () => this.showPrevImage());
         this.lightboxNext?.addEventListener('click', () => this.showNextImage());
+        this.prevBtn?.addEventListener('click', () => this.prevSlide());
+        this.nextBtn?.addEventListener('click', () => this.nextSlide());
         
         this.bookButtons.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -155,24 +177,89 @@ class PortfolioSite {
         window.addEventListener('scroll', () => this.handleScroll());
     }
     
-    initPortfolio() {
-        if (!this.portfolioGrid) return;
+    initPortfolioCarousel() {
+        if (!this.portfolioCarousel) return;
         
-        this.portfolioGrid.innerHTML = '';
+        // Очищаем карусель
+        this.portfolioCarousel.innerHTML = '';
+        this.carouselDots.innerHTML = '';
         
-        this.portfolioImages.forEach((image, index) => {
-            const item = document.createElement('div');
-            item.className = 'portfolio-item';
+        // Создаем слайды
+        this.portfolioItems.forEach((item, index) => {
+            const slide = document.createElement('div');
+            slide.className = 'carousel-slide';
+            slide.dataset.index = index;
             
-            item.innerHTML = `
-                <div class="portfolio-image">
-                    <span>${image.caption}</span>
+            slide.innerHTML = `
+                <img src="${item.image}" alt="${item.caption}" loading="lazy">
+                <div class="carousel-caption">
+                    <h3>${item.caption}</h3>
+                    <p>${item.description}</p>
                 </div>
             `;
             
-            item.addEventListener('click', () => this.openLightbox(index));
-            this.portfolioGrid.appendChild(item);
+            slide.addEventListener('click', () => this.openLightbox(index));
+            this.portfolioCarousel.appendChild(slide);
+            
+            // Создаем точки навигации
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot';
+            dot.dataset.index = index;
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => this.goToSlide(index));
+            this.carouselDots.appendChild(dot);
         });
+        
+        // Обновляем позицию карусели
+        this.updateCarousel();
+    }
+    
+    updateCarousel() {
+        if (!this.portfolioCarousel) return;
+        
+        const slideWidth = 100; // 100% на слайд
+        this.portfolioCarousel.style.transform = `translateX(-${this.currentSlide * slideWidth}%)`;
+        
+        // Обновляем активную точку
+        document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentSlide);
+        });
+    }
+    
+    nextSlide() {
+        this.currentSlide = (this.currentSlide + 1) % this.portfolioItems.length;
+        this.updateCarousel();
+        this.resetAutoSlide();
+    }
+    
+    prevSlide() {
+        this.currentSlide = (this.currentSlide - 1 + this.portfolioItems.length) % this.portfolioItems.length;
+        this.updateCarousel();
+        this.resetAutoSlide();
+    }
+    
+    goToSlide(index) {
+        this.currentSlide = index;
+        this.updateCarousel();
+        this.resetAutoSlide();
+    }
+    
+    startAutoSlide() {
+        if (this.isAutoPlaying) {
+            this.autoSlideInterval = setInterval(() => this.nextSlide(), this.autoSlideDelay);
+        }
+    }
+    
+    stopAutoSlide() {
+        if (this.autoSlideInterval) {
+            clearInterval(this.autoSlideInterval);
+            this.autoSlideInterval = null;
+        }
+    }
+    
+    resetAutoSlide() {
+        this.stopAutoSlide();
+        this.startAutoSlide();
     }
     
     initScroll() {
@@ -261,9 +348,11 @@ class PortfolioSite {
     }
     
     openLightbox(index) {
+        this.stopAutoSlide(); // Останавливаем автопрокрутку при открытии лайтбокса
         this.currentImageIndex = index;
-        const image = this.portfolioImages[this.currentImageIndex];
+        const image = this.portfolioItems[this.currentImageIndex];
         
+        this.lightboxImage.src = image.image;
         this.lightboxImage.alt = image.caption;
         this.lightboxCaption.textContent = image.caption;
         this.lightbox.classList.add('active');
@@ -273,18 +362,21 @@ class PortfolioSite {
     closeLightbox() {
         this.lightbox.classList.remove('active');
         document.body.style.overflow = 'auto';
+        this.startAutoSlide(); // Возобновляем автопрокрутку
     }
     
     showPrevImage() {
-        this.currentImageIndex = (this.currentImageIndex - 1 + this.portfolioImages.length) % this.portfolioImages.length;
-        const image = this.portfolioImages[this.currentImageIndex];
+        this.currentImageIndex = (this.currentImageIndex - 1 + this.portfolioItems.length) % this.portfolioItems.length;
+        const image = this.portfolioItems[this.currentImageIndex];
+        this.lightboxImage.src = image.image;
         this.lightboxImage.alt = image.caption;
         this.lightboxCaption.textContent = image.caption;
     }
     
     showNextImage() {
-        this.currentImageIndex = (this.currentImageIndex + 1) % this.portfolioImages.length;
-        const image = this.portfolioImages[this.currentImageIndex];
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.portfolioItems.length;
+        const image = this.portfolioItems[this.currentImageIndex];
+        this.lightboxImage.src = image.image;
         this.lightboxImage.alt = image.caption;
         this.lightboxCaption.textContent = image.caption;
     }
@@ -298,6 +390,12 @@ class PortfolioSite {
         if (this.lightbox?.classList.contains('active')) {
             if (e.key === 'ArrowLeft') this.showPrevImage();
             if (e.key === 'ArrowRight') this.showNextImage();
+        }
+        
+        // Управление каруселью с клавиатуры
+        if (!this.modal?.classList.contains('active') && !this.lightbox?.classList.contains('active')) {
+            if (e.key === 'ArrowLeft') this.prevSlide();
+            if (e.key === 'ArrowRight') this.nextSlide();
         }
     }
 }

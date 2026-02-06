@@ -319,6 +319,27 @@ h1, h2, h3, h4 {
     background: radial-gradient(circle at center, transparent 30%, rgba(38,5,5,0.7) 100%);
     pointer-events: none;
 }
+
+/* Простое исправление для мобильных */
+@media (max-width: 720px) {
+    .loader-text {
+        font-size: 1.3rem !important;
+        transform: scale(0.9);
+        transform-origin: center;
+    }
+    
+    #loaderName {
+        word-break: break-word;
+        white-space: normal;
+        text-align: center;
+        max-width: 95vw;
+        margin: 0 auto;
+    }
+    
+    .loader-subtitle {
+        font-size: 0.5em !important;
+    }
+}
 /* ===== HERO ===== */
 .hero {
     height: 100vh;
@@ -799,7 +820,7 @@ h1, h2, h3, h4 {
     border-top: none;
 }
 
-/* ===== ПОРТФОЛИО ===== */
+/* ===== КАРУСЕЛЬ ПОРТФОЛИО ===== */
 .portfolio {
     padding: var(--section-padding);
     position: relative;
@@ -816,42 +837,192 @@ h1, h2, h3, h4 {
     pointer-events: none;
 }
 
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-    gap: 1.5rem;
+.portfolio-carousel {
     position: relative;
-    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
 }
 
-.portfolio-item {
-    aspect-ratio: 1;
+.carousel-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 60px; /* Место для точек */
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    will-change: transform;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    position: relative;
+    aspect-ratio: 16/9;
     overflow: hidden;
     cursor: pointer;
-    position: relative;
-    border-radius: 12px;
-    background: linear-gradient(45deg, var(--champagne), #d4c9be);
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide:hover img {
+    transform: scale(1.05);
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: var(--satin);
+    padding: 2rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.carousel-slide:hover .carousel-caption {
+    transform: translateY(0);
+}
+
+.carousel-caption h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+.carousel-caption p {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(30, 26, 25, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(229, 222, 214, 0.3);
+    color: var(--satin);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--ink);
-    font-size: 1.2rem;
-    opacity: 0.3;
-    box-shadow: 
-        inset 0 0 20px rgba(255,255,255,0.5),
-        0 10px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(229, 222, 214, 0.8);
-    transition: var(--transition);
 }
 
-.portfolio-item:hover {
-    opacity: 0.5;
-    transform: translateY(-5px);
-    box-shadow: 
-        inset 0 0 30px rgba(255,255,255,0.7),
-        0 15px 40px rgba(0,0,0,0.2);
+.carousel-btn:hover {
+    background: var(--cherry);
+    border-color: var(--cherry);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 30px rgba(127, 15, 28, 0.5);
 }
 
+.carousel-prev {
+    left: 20px;
+}
+
+.carousel-next {
+    right: 20px;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(229, 222, 214, 0.5);
+    border: 1px solid rgba(30, 26, 25, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    background: var(--cherry);
+    transform: scale(1.2);
+}
+
+.carousel-dot:hover {
+    background: var(--cherry);
+}
+
+/* Автопрокрутка индикатор */
+.carousel-auto {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.carousel-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(30, 26, 25, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(229, 222, 214, 0.3);
+    color: var(--satin);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.carousel-toggle:hover {
+    background: var(--cherry);
+    border-color: var(--cherry);
+}
+
+/* Адаптивность карусели */
+@media (max-width: 768px) {
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .carousel-prev {
+        left: 10px;
+    }
+    
+    .carousel-next {
+        right: 10px;
+    }
+    
+    .carousel-caption {
+        padding: 1rem;
+    }
+    
+    .carousel-caption h3 {
+        font-size: 1.2rem;
+    }
+}
 /* ===== КОНТАКТЫ ===== */
 .contacts {
     background: linear-gradient(135deg, var(--merlot) 0%, var(--ink) 100%);

@@ -1541,17 +1541,7 @@ body::before {
     .contacts {
         padding: 2rem 1rem;
     }
-    
-    /* Еще больше показываем фото на очень маленьких экранах */
-    .contacts-bg-photo::after {
-        background: linear-gradient(
-            135deg,
-            rgba(38, 5, 5, 0.2) 0%,
-            rgba(81, 13, 11, 0.15) 50%,
-            rgba(38, 5, 5, 0.3) 100%
-        );
-    }
-    
+
     .contacts-content {
         background: rgba(143, 137, 136, 0.65);
         padding: 1.25rem;

@@ -5,10 +5,9 @@ class PortfolioSite {
             'IMG_0296', 'IMG_0745', 'IMG_0818', 'IMG_1310', 'IMG_1311', 'IMG_1633', 'IMG_1899',
             'IMG_1933', 'IMG_2032', 'IMG_2118', 'IMG_2182', 'IMG_2256', 'IMG_2373', 'IMG_2400',
             'IMG_2473', 'IMG_2815', 'IMG_2869', 'IMG_2952', 'IMG_3004', 'IMG_3234', 'IMG_3239',
-            'IMG_3333', 'IMG_3334', 'IMG_3348', 'IMG_3448', 'IMG_3449', 'IMG_3645', 'IMG_3652',
+            'IMG_3333', 'IMG_3448', 'IMG_3449', 'IMG_3645', 'IMG_3652',
             'IMG_3673', 'IMG_3676', 'IMG_3683', 'IMG_3701', 'IMG_3721', 'IMG_3777', 'IMG_4042',
-            'IMG_4048', 'IMG_4119', 'IMG_4198', 'IMG_5045', 'IMG_5641', 'IMG_5742', 'IMG_5744',
-            'IMG_5749', 'IMG_5756', 'IMG_5758', 'IMG_5759', 'IMG_5762', 'IMG_5765', 'IMG_7040',
+            'IMG_4048', 'IMG_4119', 'IMG_4198', 'IMG_5045', 'IMG_5641', 'IMG_5742-', 'IMG_5756', 'IMG_5758', 'IMG_7040',
             'IMG_7430', 'IMG_7449'
         ].map(name => ({
             image: `./images/portfolio/${name}.jpg`,

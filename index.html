@@ -36,10 +36,9 @@
                     <span class="name-first">Фахартымова</span>
                     <span class="name-last">Диана</span>
                 </h1>
-                <div class="hero-title-divider"></div>
                 <div class="hero-subtitle">
-                    <span class="hero-profession">ПРОФЕССИОНАЛЬНЫЙ ХУДОЖНИК</span>
-                    <span class="hero-experience">Роспись, граффити, аэрография на стенах • 12 лет опыта</span>
+                    <span class="hero-experience one">Роспись, граффити, аэрография на стенах</span>
+                    <span class="hero-experience two">12 лет опыта</span>
                 </div>
             </div>
             <button class="btn btn-outline" id="bookingBtn">Связаться со мной</button>
@@ -52,14 +51,47 @@
         <h2 class="section-title">О СЕБЕ</h2>
         <div class="about-grid">
             <div class="about-text">
-                <p class="pi">Я — профессиональный художник с многолетним опытом работы в сфере художественной росписи. Владею широким спектром техник и стилей, что позволяет мне создавать уникальные решения для любых пространств.</p>
-                <p class="pi">Я оформляю детские комнаты, превращая их в волшебные миры, где каждый элемент продуман до мелочей. В офисных интерьерах я сочетаю эстетику и функциональность, подчёркивая корпоративный стиль компании.</p>
-                <p class="pi">При работе с фасадами домов учитываю архитектурные особенности и городскую среду, создавая гармоничные композиции. Мой профессионализм — в умении слышать заказчика и воплощать его идеи с безупречным качеством исполнения.</p>
+                <div class="text-unified-block">
+                    <div class="text-header">
+                        <div class="text-icon-main">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="text-content-unified">
+                        <div class="text-paragraph-block">
+                            <div class="paragraph-marker">
+                                <div class="marker-dot"></div>
+                            </div>
+                            <p class="unified-text">Я — профессиональный художник с многолетним опытом работы в сфере художественной росписи. Владею широким спектром техник и стилей, что позволяет мне создавать уникальные решения для любых пространств.</p>
+                        </div>
+                        
+                        <div class="text-paragraph-block">
+                            <div class="paragraph-marker">
+                                <div class="marker-dot"></div>
+                            </div>
+                            <p class="unified-text">Я оформляю детские комнаты, превращая их в волшебные миры, где каждый элемент продуман до мелочей. В офисных интерьерах я сочетаю эстетику и функциональность, подчёркивая корпоративный стиль компании.</p>
+                        </div>
+                        
+                        <div class="text-paragraph-block">
+                            <div class="paragraph-marker">
+                                <div class="marker-dot"></div>
+                            </div>
+                            <p class="unified-text">При работе с фасадами домов учитываю архитектурные особенности и городскую среду, создавая гармоничные композиции. Мой профессионализм — в умении слышать заказчика и воплощать его идеи с безупречным качеством исполнения.</p>
+                        </div>
+                    </div>
+                
+                </div>
             </div>
             <div class="about-photo">
                 <div class="photo-frame">
                     <div class="photo-glow"></div>
                     <img src="./images/main_photo.png" alt="Фахартымова Диана" class="photo-real">
+                    <div class="photo-inner-frame"></div>
+                    <div class="photo-corner tl"></div>
+                    <div class="photo-corner tr"></div>
+                    <div class="photo-corner bl"></div>
+                    <div class="photo-corner br"></div>
                 </div>
             </div>
         </div>
@@ -85,7 +117,7 @@
                         <h3 class="why-title">Профессиональные материалы</h3>
                         <p>Использую только качественные и профессиональные материалы для долговечности работ.</p>
                     </div>
-                    <div class="why-item">
+                    <div class="why-item ">
                         <div class="why-number">04</div>
                         <h3 class="why-title">Эскиз в подарок</h3>
                         <p>Разработка индивидуального эскиза бесплатно при заказе любой услуги.</p>
@@ -94,19 +126,24 @@
             </div>
         </section>
 
+        <!-- ЗАМЕНИТЕ СУЩЕСТВУЮЩУЮ СЕКЦИЮ ПОРТФОЛИО НА ЭТУ ВЕРСИЮ -->
         <section class="portfolio section-light" id="portfolio">
             <div class="container">
                 <h2 class="section-title">ПОРТФОЛИО</h2>
-                <div class="portfolio-carousel">
-                    <div class="carousel-container">
-                        <div class="carousel-track" id="portfolioCarousel"></div>
-                        <button class="carousel-btn carousel-prev">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="carousel-btn carousel-next">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <div class="carousel-dots" id="carouselDots"></div>
+                <div class="portfolio-fullwidth">
+                    <!-- Контейнер для скролла -->
+                    <div class="portfolio-scroll-container" id="portfolioScrollContainer">
+                        <div class="portfolio-grid" id="portfolioGrid">
+                            <!-- Фотографии будут добавляться через JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Убрали блок навигации -->
+                    
+                    <!-- Инструкция -->
+                    <div class="portfolio-hint">
+                        <i class="fas fa-arrows-alt-h"></i>
+                        <span>Перетаскивайте для прокрутки</span>
                     </div>
                 </div>
             </div>

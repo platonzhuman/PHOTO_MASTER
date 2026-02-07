@@ -1027,12 +1027,13 @@ body::before {
 .contacts-container {
     max-width: 1400px;
     margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 2rem);
     position: relative;
-    z-index: 2; /* Поверх фона */
+    z-index: 2;
 }
 
 .contacts-content {
-    background: rgba(143, 137, 136, 0.85);
+    background: rgba(131, 126, 125, 0.85);
     border-radius: 32px;
     padding: clamp(2rem, 5vw, 4rem);
     border: 1px solid rgba(229, 222, 214, 0.2);
@@ -1398,24 +1399,76 @@ body::before {
     box-shadow: 0 10px 25px rgba(127, 15, 28, 0.4);
 }
 
-/* Мобильная адаптация */
+/* ===== УЛУЧШЕННАЯ МОБИЛЬНАЯ ВЕРСИЯ ===== */
 @media (max-width: 991px) {
     .contacts-body {
         gap: 3rem;
     }
-}
-
-@media (max-width: 768px) {
-    .contacts-bg-photo {
-        opacity: 0.2; /* Еще более прозрачный на мобилках */
+    
+    /* Уменьшаем затемнение фона для лучшей видимости фото */
+    .contacts-bg-photo::after {
+        background: linear-gradient(
+            135deg,
+            rgba(38, 5, 5, 0.5) 0%,
+            rgba(81, 13, 11, 0.4) 50%,
+            rgba(38, 5, 5, 0.6) 100%
+        );
     }
     
     .contacts-content {
-        padding: 2rem;
+        background: rgba(143, 137, 136, 0.75); /* Немного прозрачнее на планшетах */
+        backdrop-filter: blur(3px);
+    }
+}
+
+@media (max-width: 768px) {
+    .contacts {
+        min-height: auto; /* Убираем фиксированную высоту на мобилках */
+        padding: clamp(3rem, 6vw, 4rem) 0;
+    }
+    
+    /* Делаем фото более заметным на мобилках */
+    .contacts-bg-photo {
+        filter: grayscale(0.1) contrast(1.2); /* Меньше grayscale, больше contrast */
+    }
+    
+    /* Убираем градиентное затемнение для лучшей видимости */
+    .contacts-bg-photo::after {
+        background: linear-gradient(
+            135deg,
+            rgba(38, 5, 5, 0.3) 0%,
+            rgba(81, 13, 11, 0.25) 50%,
+            rgba(38, 5, 5, 0.4) 100%
+        );
+    }
+    
+    /* Делаем контентный блок более прозрачным чтобы фото было видно лучше */
+    .contacts-content {
+        background: rgba(143, 137, 136, 0.7);
+        backdrop-filter: blur(2px);
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+    
+    .contacts-header {
+        margin-bottom: 2rem;
+    }
+    
+    .contacts-title {
+        font-size: 1.8rem;
+        letter-spacing: 0.15em;
+    }
+    
+    .contacts-subtitle {
+        font-size: 1.1rem;
     }
     
     .contact-method {
         padding: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 1rem;
     }
     
     .contact-icon {
@@ -1424,42 +1477,38 @@ body::before {
         font-size: 1.3rem;
     }
     
+    .contact-details {
+        text-align: center;
+    }
+    
+    .contact-details h3 {
+        font-size: 1.3rem;
+    }
+    
+    .contact-link {
+        font-size: 1.2rem;
+    }
+    
+    .contact-signature {
+        padding: 2rem;
+        margin-top: 0.5rem;
+    }
+    
+    .artist-name {
+        font-size: 1.5rem;
+    }
+    
     .social-card {
         padding: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
     }
     
     .social-icon {
         width: 50px;
         height: 50px;
         font-size: 1.5rem;
-    }
-    
-    .contact-signature,
-    .contact-action {
-        padding: 2rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .contacts-body {
-        gap: 2rem;
-    }
-    
-    .contact-method {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .contact-details {
-        text-align: center;
-    }
-    
-    .social-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
     }
     
     .social-content {
@@ -1469,6 +1518,126 @@ body::before {
     .social-arrow {
         display: none;
     }
+    
+    .contact-action {
+        padding: 2rem;
+        margin-top: 1.5rem;
+    }
+    
+    .contact-action h3 {
+        font-size: 1.3rem;
+    }
+    
+    .contact-action p {
+        font-size: 1rem;
+    }
+    
+    .contact-btn {
+        padding: 0.8rem 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .contacts {
+        padding: 2rem 1rem;
+    }
+    
+    /* Еще больше показываем фото на очень маленьких экранах */
+    .contacts-bg-photo::after {
+        background: linear-gradient(
+            135deg,
+            rgba(38, 5, 5, 0.2) 0%,
+            rgba(81, 13, 11, 0.15) 50%,
+            rgba(38, 5, 5, 0.3) 100%
+        );
+    }
+    
+    .contacts-content {
+        background: rgba(143, 137, 136, 0.65);
+        padding: 1.25rem;
+    }
+    
+    .contacts-title {
+        font-size: 1.6rem;
+        letter-spacing: 0.1em;
+    }
+    
+    .contacts-subtitle {
+        font-size: 1rem;
+    }
+    
+    .contacts-body {
+        gap: 2rem;
+    }
+    
+    .contacts-left {
+        gap: 1.5rem;
+    }
+    
+    .contact-method {
+        padding: 1.25rem;
+    }
+    
+    .contact-signature {
+        padding: 1.5rem;
+    }
+    
+    .artist-name {
+        font-size: 1.3rem;
+    }
+    
+    .artist-tagline {
+        font-size: 0.9rem;
+    }
+    
+    .social-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Особые стили для очень высоких телефонов */
+@media (max-height: 700px) and (max-width: 768px) {
+    .contacts {
+        padding: 1.5rem 0;
+    }
+    
+    .contacts-content {
+        padding: 1rem;
+    }
+    
+    .contacts-header {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Для горизонтальной ориентации на мобилках */
+@media (max-height: 500px) and (orientation: landscape) {
+    .contacts {
+        min-height: auto;
+        padding: 1rem 0;
+    }
+    
+    .contacts-content {
+        padding: 1rem;
+    }
+    
+    .contacts-body {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    
+    .contacts-left {
+        gap: 1rem;
+    }
+    
+    .contact-method {
+        padding: 1rem;
+    }
+    
+    .contact-signature {
+        padding: 1rem;
+    }
 }
 
 /* Эффект параллакса при скролле */
@@ -1477,7 +1646,6 @@ body::before {
         background-attachment: fixed;
     }
 }
-
 /* ===== ФУТЕР ===== */
 .footer {
     background: linear-gradient(135deg, var(--ink), var(--merlot));

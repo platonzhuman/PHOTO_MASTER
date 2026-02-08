@@ -2321,134 +2321,58 @@ body::before {
 }
 
 
-/* ===== ДОПОЛНИТЕЛЬНАЯ АДАПТАЦИЯ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ТЕЛЕФОНОВ ===== */
-@media (max-width: 420px) {
-    .hero {
-        min-height: 500px;
-        padding: 1rem;
-    }
-    
+/* ===== ОПТИМАЛЬНАЯ АДАПТАЦИЯ HERO-CONTENT ===== */
+@media (max-width: 768px) {
     .hero-content {
-        padding-top: 600px; /* Уменьшаем отступ сверху на маленьких экранах */
-        margin-bottom: 0;
+        padding-top: 0 !important;
+        margin-top: auto;
+        margin-bottom: 10px;
+        justify-content: flex-end;
     }
     
     .hero-name-wrapper {
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
     
-    .hero-name {
-        font-size: 1.2rem;
-        letter-spacing: 0.08em;
-    }
-    
-    .hero-experience {
-        font-size: 11pt;
-        line-height: 1.4;
-    }
-    
-    .btn {
-        padding: 0.8rem 1.8rem;
-        font-size: 0.85rem;
-    }
-    
-    .btn-outline {
-        position: relative;
-        z-index: 10;
-        margin-top: 0.5rem;
-    }
-    
-    /* Убедимся, что кнопка всегда видна */
-    .hero-content {
+    .hero {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        min-height: 300px;
     }
 }
 
-@media (max-width: 390px) {
-    .hero {
-        min-height: 480px;
-        height: auto;
-        max-height: 100vh;
+@media (max-width: 480px) {
+    .hero-content {
+        margin-bottom: 10px;
+        transform: none !important;
     }
     
+    .hero {
+        min-height: 100vh;
+    }
+}
+
+/* Для экранов с малой высотой */
+@media (max-height: 700px) and (max-width: 768px) {
     .hero-content {
-        padding-top: 500px;
-        justify-content: flex-end;
-        padding-bottom: 2rem;
+        margin-bottom: 10px;
+    }
+}
+
+/* Фикс для самых маленьких телефонов */
+@media (max-width: 390px) {
+    .hero-content {
+        margin-bottom: 10px;
     }
     
     .hero-name-wrapper {
         padding: 1.2rem;
-        margin-bottom: 1.2rem;
-    }
-    
-    .hero-name {
-        font-size: 1.1rem;
-    }
-    
-    .hero-experience {
-        font-size: 10pt;
-    }
-    
-    .btn-outline {
-        padding: 0.7rem 1.5rem;
-        font-size: 0.8rem;
     }
 }
 
-@media (max-width: 360px) {
-    .hero {
-        min-height: 450px;
-    }
-    
+/* Горизонтальная ориентация */
+@media (max-height: 500px) and (orientation: landscape) {
     .hero-content {
-        padding-top: 450px;
-        padding-bottom: 1.5rem;
-    }
-    
-    .hero-name-wrapper {
-        padding: 1rem;
-    }
-    
-    .hero-name {
-        font-size: 1rem;
-        letter-spacing: 0.05em;
-    }
-    
-    .hero-experience {
-        font-size: 9pt;
-    }
-    
-    .btn-outline {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.75rem;
-        margin-top: 0.3rem;
-    }
-}
-
-
-
-/* Гарантия, что кнопка никогда не выйдет за пределы видимой области */
-.hero .container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: flex-end;
-    padding-bottom: 2rem;
-}
-
-@media (max-width: 420px) {
-    .hero .container {
-        padding-bottom: 1.5rem;
-        justify-content: flex-end;
-    }
-    
-    .hero-content {
-        margin-top: auto;
-        margin-bottom: 0;
+        margin-bottom: 10px;
     }
 }

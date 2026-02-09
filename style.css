@@ -2331,3 +2331,10 @@ body::before {
         margin: 0 1.5rem;
     }
 }
+.fof{
+    font-size: 11pt;
+    text-align: center;
+    opacity: 0.8;
+    color: grey;
+    margin-bottom: 1.5rem;
+}

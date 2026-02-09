@@ -2338,3 +2338,64 @@ body::before {
     color: grey;
     margin-bottom: 1.5rem;
 }
+
+/* Стили для кликабельного контакта Telegram */
+.telegram-contact {
+    text-decoration: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: rgba(38, 5, 5, 0.6);
+    border-radius: 20px;
+    transition: var(--transition);
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.telegram-contact:hover {
+    border-color: #83aa9b;
+    background: rgba(38, 5, 5, 0.8);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(0, 204, 68, 0.3);
+}
+
+.telegram-contact .contact-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--cherry), var(--red-velvet));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 5px 15px rgba(127, 15, 28, 0.4);
+    transition: var(--transition);
+}
+
+.telegram-contact:hover .contact-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 25px rgba(127, 15, 28, 0.6);
+}
+
+.telegram-contact .contact-details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    background: linear-gradient(45deg, var(--satin), var(--champagne));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.telegram-contact .contact-details p {
+    opacity: 0.8;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    color: var(--champagne);
+}

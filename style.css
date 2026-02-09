@@ -1,4 +1,4 @@
-/* ===== ОБНОВЛЕННЫЙ CSS С МОБИЛЬНОЙ АДАПТАЦИЕЙ ===== */
+/* ===== БАЗОВЫЕ СТИЛИ И СБРОС ===== */
 * {
     margin: 0;
     padding: 0;
@@ -48,6 +48,7 @@ body::before {
     pointer-events: none;
 }
 
+/* ===== ОБЩИЕ КОМПОНЕНТЫ ===== */
 .container {
     max-width: var(--container-max);
     margin: 0 auto;
@@ -155,7 +156,126 @@ body::before {
     position: relative;
 }
 
-/* ===== HERO С ФОНОМ ===== */
+/* ===== ЛОАДЕР ===== */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--merlot);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--satin);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.loader-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+#loaderName {
+    display: inline-block;
+    line-height: 1.2;
+    text-align: center;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+#loaderName .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: blur(3px);
+}
+
+#loaderName .letter.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+
+.loader-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.2em;
+    background-color: var(--satin);
+    margin-left: 8px;
+    animation: cursorBlink 0.8s infinite;
+    transition: opacity 0.3s;
+    vertical-align: middle;
+}
+
+@keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.loader-subtitle {
+    font-size: 0.35em;
+    color: rgba(242, 241, 234, 0.7);
+    text-align: center;
+    width: 100%;
+    letter-spacing: 0.3em;
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+#loaderSubtitle {
+    display: inline-block;
+    text-align: center;
+}
+
+#loaderSubtitle .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(10px) scale(0.85);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: blur(2px);
+}
+
+#loaderSubtitle .letter.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+
+.loader.hidden .loader-text {
+    animation: fadeOutUp 0.5s forwards;
+}
+
+@keyframes fadeOutUp {
+    to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+/* ===== HERO СЕКЦИЯ ===== */
 .hero {
     height: 100vh;
     min-height: 600px;
@@ -182,7 +302,6 @@ body::before {
     z-index: 1;
 }
 
-
 @keyframes fadeInBackground {
     from { opacity: 0; transform: scale(1.05); }
     to { opacity: 1; transform: scale(1); }
@@ -199,13 +318,6 @@ body::before {
     padding-top: 650px;
     max-width: 800px;
     text-shadow: 0 4px 8px rgba(0,0,0,0.5);
-}
-
-.btn-outline {
-    background: rgba(38, 5, 5, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: 5px;
-    border: 1px solid rgba(229, 222, 214, 0.3);
 }
 
 .hero-name-wrapper {
@@ -259,7 +371,7 @@ body::before {
     100% { text-shadow: 0 5px 25px rgba(127, 15, 28, 0.8); }
 }
 
-/* ===== ОБНОВЛЕННАЯ СЕКЦИЯ "О СЕБЕ" ===== */
+/* ===== СЕКЦИЯ "О СЕБЕ" ===== */
 .about {
     padding: var(--section-padding);
 }
@@ -432,7 +544,6 @@ body::before {
     flex: 1;
 }
 
-/* ФОТО БЛОК - АДАПТИВНЫЙ */
 .about-photo {
     display: flex;
     flex-direction: column;
@@ -492,226 +603,6 @@ body::before {
 
 .photo-frame:hover .photo-glow {
     opacity: 0.8;
-}
-
-/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ДЛЯ ФОТО ===== */
-@media (max-width: 991px) {
-    .about-photo {
-        width: 100%;
-        max-width: 100%;
-        align-items: center;
-    }
-    
-    .photo-frame {
-        width: 100%;
-        max-width: 400px; /* Ограничиваем максимальную ширину */
-        height: auto;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 768px) {
-    .about-photo {
-        width: 100%;
-        padding: 0 1rem;
-    }
-    
-    .photo-frame {
-        width: 100%;
-        max-width: 350px;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 576px) {
-    .about-photo {
-        width: 100%;
-        padding: 0;
-    }
-    
-    .photo-frame {
-        width: 100%;
-        max-width: 100%; /* Полная ширина на очень маленьких экранах */
-        margin: 0;
-    }
-    
-    /* Сделаем фото такой же ширины, как текстовый блок */
-    .text-unified-block {
-        width: 100%;
-        padding: 1.5rem;
-    }
-    
-    .photo-frame {
-        width: calc(100% - 3rem); /* Минус паддинги текстового блока */
-        margin: 0 1.5rem;
-    }
-}
-
-/* ===== ЛОАДЕР С УЛУЧШЕННОЙ МОБИЛЬНОЙ АДАПТАЦИЕЙ ===== */
-.loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--merlot);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s, visibility 0.5s;
-}
-
-.loader.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.loader-text {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    color: var(--satin);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    position: relative;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.loader-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-
-#loaderName {
-    display: inline-block;
-    line-height: 1.2;
-    text-align: center;
-    font-size: clamp(1.5rem, 4vw, 3rem); /* Уменьшенный размер для мобилок */
-}
-
-#loaderName .letter {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(20px) scale(0.9);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: blur(3px);
-}
-
-#loaderName .letter.visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-}
-
-.loader-cursor {
-    display: inline-block;
-    width: 3px;
-    height: 1.2em;
-    background-color: var(--satin);
-    margin-left: 8px;
-    animation: cursorBlink 0.8s infinite;
-    transition: opacity 0.3s;
-    vertical-align: middle;
-}
-
-@keyframes cursorBlink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-.loader-subtitle {
-    font-size: 0.35em;
-    color: rgba(242, 241, 234, 0.7);
-    text-align: center;
-    width: 100%;
-    letter-spacing: 0.3em;
-    font-weight: 300;
-    line-height: 1.2;
-}
-
-#loaderSubtitle {
-    display: inline-block;
-    text-align: center;
-}
-
-#loaderSubtitle .letter {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(10px) scale(0.85);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: blur(2px);
-}
-
-#loaderSubtitle .letter.visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-}
-
-.loader.hidden .loader-text {
-    animation: fadeOutUp 0.5s forwards;
-}
-
-@keyframes fadeOutUp {
-    to {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-}
-
-/* МОБИЛЬНАЯ АДАПТАЦИЯ ЛОАДЕРА */
-@media (max-width: 768px) {
-    .loader-text {
-        font-size: clamp(1.3rem, 4vw, 2rem) !important;
-        transform: scale(0.85);
-        transform-origin: center;
-    }
-    
-    #loaderName {
-        font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-        word-break: break-word;
-        white-space: normal;
-        text-align: center;
-        max-width: 95vw;
-        margin: 0 auto;
-        letter-spacing: 0.08em;
-    }
-    
-    .loader-subtitle {
-        font-size: 0.4em !important;
-        letter-spacing: 0.15em;
-    }
-    
-    .loader-cursor {
-        height: 1em;
-    }
-}
-
-@media (max-width: 480px) {
-    .loader-text {
-        font-size: 1.1rem !important;
-        transform: scale(0.8);
-    }
-    
-    #loaderName {
-        font-size: 1.1rem !important;
-        letter-spacing: 0.06em;
-    }
-    
-    #loaderSubtitle .letter {
-        font-size: 0.5rem !important;
-    }
-    
-    .loader-main {
-        margin-bottom: 15px;
-    }
 }
 
 /* ===== СЕКЦИЯ "ПОЧЕМУ Я" ===== */
@@ -796,7 +687,7 @@ body::before {
     background-clip: text;
 }
 
-/* ===== ПОРТФОЛИО ===== */
+/* ===== СЕКЦИЯ ПОРТФОЛИО ===== */
 .portfolio {
     padding: var(--section-padding);
     background: var(--merlot);
@@ -896,7 +787,7 @@ body::before {
     color: var(--cherry);
 }
 
-/* ===== УСЛУГИ ===== */
+/* ===== СЕКЦИЯ УСЛУГ ===== */
 .services {
     padding: var(--section-padding);
 }
@@ -986,7 +877,7 @@ body::before {
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* ===== ОБНОВЛЕННАЯ СЕКЦИЯ КОНТАКТОВ ===== */
+/* ===== СЕКЦИЯ КОНТАКТОВ ===== */
 .contacts {
     background: linear-gradient(135deg, var(--merlot) 0%, var(--ink) 100%);
     color: var(--satin);
@@ -998,7 +889,6 @@ body::before {
     align-items: center;
 }
 
-/* Фоновое фото на всю секцию */
 .contacts-bg-photo {
     position: absolute;
     top: 0;
@@ -1013,7 +903,6 @@ body::before {
     filter: grayscale(0.2) contrast(1.1);
 }
 
-/* Затемнение фона для контраста текста */
 .contacts-bg-photo::after {
     content: '';
     position: absolute;
@@ -1045,7 +934,6 @@ body::before {
     backdrop-filter: blur(5px);
 }
 
-/* Остальные стили остаются такими же как в предыдущей версии */
 .contacts-header {
     text-align: center;
     margin-bottom: clamp(3rem, 6vw, 5rem);
@@ -1061,7 +949,6 @@ body::before {
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     color: black;
 }
-
 
 .contacts-subtitle {
     font-size: clamp(1.2rem, 3vw, 1.8rem);
@@ -1081,7 +968,6 @@ body::before {
     box-shadow: 0 0 20px rgba(127, 15, 28, 0.5);
 }
 
-/* Тело контактов */
 .contacts-body {
     display: grid;
     grid-template-columns: 1fr;
@@ -1095,7 +981,6 @@ body::before {
     }
 }
 
-/* Левая колонка */
 .contacts-left {
     display: flex;
     flex-direction: column;
@@ -1181,7 +1066,6 @@ body::before {
     font-size: 0.9rem;
 }
 
-/* Подпись художника */
 .contact-signature {
     padding: 2.5rem;
     background: rgba(81, 13, 11, 0.7);
@@ -1224,7 +1108,6 @@ body::before {
     font-style: italic;
 }
 
-/* Правая колонка */
 .contacts-right {
     display: flex;
     flex-direction: column;
@@ -1356,7 +1239,6 @@ body::before {
     color: var(--satin);
 }
 
-/* Кнопка действия */
 .contact-action {
     padding: 2.5rem;
     background: rgba(81, 13, 11, 0.7);
@@ -1398,243 +1280,6 @@ body::before {
     box-shadow: 0 10px 25px rgba(127, 15, 28, 0.4);
 }
 
-/* ===== УЛУЧШЕННАЯ МОБИЛЬНАЯ ВЕРСИЯ ===== */
-@media (max-width: 991px) {
-    .contacts-body {
-        gap: 3rem;
-    }
-    
-    /* Уменьшаем затемнение фона для лучшей видимости фото */
-    .contacts-bg-photo::after {
-        background: linear-gradient(
-            135deg,
-            rgba(38, 5, 5, 0.5) 0%,
-            rgba(81, 13, 11, 0.4) 50%,
-            rgba(38, 5, 5, 0.6) 100%
-        );
-    }
-    
-    .contacts-content {
-        background: rgba(143, 137, 136, 0.75); /* Немного прозрачнее на планшетах */
-        backdrop-filter: blur(3px);
-    }
-}
-
-@media (max-width: 768px) {
-    .contacts {
-        min-height: auto; /* Убираем фиксированную высоту на мобилках */
-        padding: clamp(3rem, 6vw, 4rem) 0;
-    }
-    
-    /* Делаем фото более заметным на мобилках */
-    .contacts-bg-photo {
-        filter: grayscale(0.1) contrast(1.2); /* Меньше grayscale, больше contrast */
-    }
-    
-    /* Убираем градиентное затемнение для лучшей видимости */
-    .contacts-bg-photo::after {
-        background: linear-gradient(
-            135deg,
-            rgba(38, 5, 5, 0.3) 0%,
-            rgba(81, 13, 11, 0.25) 50%,
-            rgba(38, 5, 5, 0.4) 100%
-        );
-    }
-    
-    /* Делаем контентный блок более прозрачным чтобы фото было видно лучше */
-    .contacts-content {
-        background: rgba(143, 137, 136, 0.7);
-        backdrop-filter: blur(2px);
-        padding: 1.5rem;
-        border-radius: 20px;
-    }
-    
-    .contacts-header {
-        margin-bottom: 2rem;
-    }
-    
-    .contacts-title {
-        font-size: 1.8rem;
-        letter-spacing: 0.15em;
-    }
-    
-    .contacts-subtitle {
-        font-size: 1.1rem;
-    }
-    
-    .contact-method {
-        padding: 1.5rem;
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .contact-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
-    
-    .contact-details {
-        text-align: center;
-    }
-    
-    .contact-details h3 {
-        font-size: 1.3rem;
-    }
-    
-    .contact-link {
-        font-size: 1.2rem;
-    }
-    
-    .contact-signature {
-        padding: 2rem;
-        margin-top: 0.5rem;
-    }
-    
-    .artist-name {
-        font-size: 1.5rem;
-    }
-    
-    .social-card {
-        padding: 1.5rem;
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-    
-    .social-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-    
-    .social-content {
-        text-align: center;
-    }
-    
-    .social-arrow {
-        display: none;
-    }
-    
-    .contact-action {
-        padding: 2rem;
-        margin-top: 1.5rem;
-    }
-    
-    .contact-action h3 {
-        font-size: 1.3rem;
-    }
-    
-    .contact-action p {
-        font-size: 1rem;
-    }
-    
-    .contact-btn {
-        padding: 0.8rem 2rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .contacts {
-        padding: 2rem 1rem;
-    }
-
-    .contacts-content {
-        background: rgba(143, 137, 136, 0.65);
-        padding: 1.25rem;
-    }
-    
-    .contacts-title {
-        font-size: 1.6rem;
-        letter-spacing: 0.1em;
-    }
-    
-    .contacts-subtitle {
-        font-size: 1rem;
-    }
-    
-    .contacts-body {
-        gap: 2rem;
-    }
-    
-    .contacts-left {
-        gap: 1.5rem;
-    }
-    
-    .contact-method {
-        padding: 1.25rem;
-    }
-    
-    .contact-signature {
-        padding: 1.5rem;
-    }
-    
-    .artist-name {
-        font-size: 1.3rem;
-    }
-    
-    .artist-tagline {
-        font-size: 0.9rem;
-    }
-    
-    .social-title {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-}
-
-/* Особые стили для очень высоких телефонов */
-@media (max-height: 700px) and (max-width: 768px) {
-    .contacts {
-        padding: 1.5rem 0;
-    }
-    
-    .contacts-content {
-        padding: 1rem;
-    }
-    
-    .contacts-header {
-        margin-bottom: 1.5rem;
-    }
-}
-
-/* Для горизонтальной ориентации на мобилках */
-@media (max-height: 500px) and (orientation: landscape) {
-    .contacts {
-        min-height: auto;
-        padding: 1rem 0;
-    }
-    
-    .contacts-content {
-        padding: 1rem;
-    }
-    
-    .contacts-body {
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-    }
-    
-    .contacts-left {
-        gap: 1rem;
-    }
-    
-    .contact-method {
-        padding: 1rem;
-    }
-    
-    .contact-signature {
-        padding: 1rem;
-    }
-}
-
-/* Эффект параллакса при скролле */
-@media (min-width: 768px) {
-    .contacts-bg-photo {
-        background-attachment: fixed;
-    }
-}
 /* ===== ФУТЕР ===== */
 .footer {
     background: linear-gradient(135deg, var(--ink), var(--merlot));
@@ -2058,7 +1703,237 @@ body::before {
     background-clip: text;
 }
 
-/* ===== АДАПТИВНОСТЬ ===== */
+/* ===== МЕДИА-ЗАПРОСЫ (ОСТАВЛЕНЫ В ИСХОДНОМ ПОРЯДКЕ) ===== */
+@media (max-width: 991px) {
+    .contacts-body {
+        gap: 3rem;
+    }
+    
+    .contacts-bg-photo::after {
+        background: linear-gradient(
+            135deg,
+            rgba(38, 5, 5, 0.5) 0%,
+            rgba(81, 13, 11, 0.4) 50%,
+            rgba(38, 5, 5, 0.6) 100%
+        );
+    }
+    
+    .contacts-content {
+        background: rgba(143, 137, 136, 0.75);
+        backdrop-filter: blur(3px);
+    }
+}
+
+@media (max-width: 768px) {
+    .contacts {
+        min-height: auto;
+        padding: clamp(3rem, 6vw, 4rem) 0;
+    }
+    
+    .contacts-bg-photo {
+        filter: grayscale(0.1) contrast(1.2);
+    }
+    
+    .contacts-bg-photo::after {
+        background: linear-gradient(
+            135deg,
+            rgba(38, 5, 5, 0.3) 0%,
+            rgba(81, 13, 11, 0.25) 50%,
+            rgba(38, 5, 5, 0.4) 100%
+        );
+    }
+    
+    .contacts-content {
+        background: rgba(143, 137, 136, 0.7);
+        backdrop-filter: blur(2px);
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+    
+    .contacts-header {
+        margin-bottom: 2rem;
+    }
+    
+    .contacts-title {
+        font-size: 1.8rem;
+        letter-spacing: 0.15em;
+    }
+    
+    .contacts-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .contact-method {
+        padding: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .contact-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .contact-details {
+        text-align: center;
+    }
+    
+    .contact-details h3 {
+        font-size: 1.3rem;
+    }
+    
+    .contact-link {
+        font-size: 1.2rem;
+    }
+    
+    .contact-signature {
+        padding: 2rem;
+        margin-top: 0.5rem;
+    }
+    
+    .artist-name {
+        font-size: 1.5rem;
+    }
+    
+    .social-card {
+        padding: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .social-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .social-content {
+        text-align: center;
+    }
+    
+    .social-arrow {
+        display: none;
+    }
+    
+    .contact-action {
+        padding: 2rem;
+        margin-top: 1.5rem;
+    }
+    
+    .contact-action h3 {
+        font-size: 1.3rem;
+    }
+    
+    .contact-action p {
+        font-size: 1rem;
+    }
+    
+    .contact-btn {
+        padding: 0.8rem 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .contacts {
+        padding: 2rem 1rem;
+    }
+
+    .contacts-content {
+        background: rgba(143, 137, 136, 0.65);
+        padding: 1.25rem;
+    }
+    
+    .contacts-title {
+        font-size: 1.6rem;
+        letter-spacing: 0.1em;
+    }
+    
+    .contacts-subtitle {
+        font-size: 1rem;
+    }
+    
+    .contacts-body {
+        gap: 2rem;
+    }
+    
+    .contacts-left {
+        gap: 1.5rem;
+    }
+    
+    .contact-method {
+        padding: 1.25rem;
+    }
+    
+    .contact-signature {
+        padding: 1.5rem;
+    }
+    
+    .artist-name {
+        font-size: 1.3rem;
+    }
+    
+    .artist-tagline {
+        font-size: 0.9rem;
+    }
+    
+    .social-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-height: 700px) and (max-width: 768px) {
+    .contacts {
+        padding: 1.5rem 0;
+    }
+    
+    .contacts-content {
+        padding: 1rem;
+    }
+    
+    .contacts-header {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .contacts {
+        min-height: auto;
+        padding: 1rem 0;
+    }
+    
+    .contacts-content {
+        padding: 1rem;
+    }
+    
+    .contacts-body {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    
+    .contacts-left {
+        gap: 1rem;
+    }
+    
+    .contact-method {
+        padding: 1rem;
+    }
+    
+    .contact-signature {
+        padding: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .contacts-bg-photo {
+        background-attachment: fixed;
+    }
+}
+
 @media (max-width: 992px) {
     .why-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -2268,7 +2143,6 @@ body::before {
         line-height: 1.7;
     }
     
-    /* Специальные стили для фото на очень маленьких экранах */
     .about-photo {
         width: 100%;
         padding: 0;
@@ -2307,7 +2181,6 @@ body::before {
     }
 }
 
-/* Поддержка safe-area-inset */
 @supports (padding: max(0px)) {
     body {
         padding-left: env(safe-area-inset-left);
@@ -2320,8 +2193,6 @@ body::before {
     }
 }
 
-
-/* ===== ОПТИМАЛЬНАЯ АДАПТАЦИЯ HERO-CONTENT ===== */
 @media (max-width: 768px) {
     .hero-content {
         padding-top: 0 !important;
@@ -2352,14 +2223,12 @@ body::before {
     }
 }
 
-/* Для экранов с малой высотой */
 @media (max-height: 700px) and (max-width: 768px) {
     .hero-content {
         margin-bottom: 10px;
     }
 }
 
-/* Фикс для самых маленьких телефонов */
 @media (max-width: 390px) {
     .hero-content {
         margin-bottom: 10px;
@@ -2370,9 +2239,95 @@ body::before {
     }
 }
 
-/* Горизонтальная ориентация */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-content {
         margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .loader-text {
+        font-size: clamp(1.3rem, 4vw, 2rem) !important;
+        transform: scale(0.85);
+        transform-origin: center;
+    }
+    
+    #loaderName {
+        font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+        word-break: break-word;
+        white-space: normal;
+        text-align: center;
+        max-width: 95vw;
+        margin: 0 auto;
+        letter-spacing: 0.08em;
+    }
+    
+    .loader-subtitle {
+        font-size: 0.4em !important;
+        letter-spacing: 0.15em;
+    }
+    
+    .loader-cursor {
+        height: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .loader-text {
+        font-size: 1.1rem !important;
+        transform: scale(0.8);
+    }
+    
+    #loaderName {
+        font-size: 1.1rem !important;
+        letter-spacing: 0.06em;
+    }
+    
+    #loaderSubtitle .letter {
+        font-size: 0.5rem !important;
+    }
+    
+    .loader-main {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 991px) {
+    .about-photo {
+        width: 100%;
+        max-width: 100%;
+        align-items: center;
+    }
+    
+    .photo-frame {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-photo {
+        width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .photo-frame {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-photo {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .photo-frame {
+        width: calc(100% - 3rem);
+        margin: 0 1.5rem;
     }
 }

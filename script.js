@@ -2,13 +2,13 @@ class PortfolioSite {
     constructor() {
         // Данные портфолио
         this.portfolioItems = [
-            'IMG_0296', 'IMG_0745', 'IMG_1311', 'IMG_0818', 'IMG_2182', 'IMG_1310', 'IMG_1633', 'IMG_1899',
-            'IMG_1933', 'IMG_2032', 'IMG_2118', 'IMG_2373', 'IMG_2400',
-            'IMG_2473', 'IMG_2869', 'IMG_2952', 'IMG_3004', 'IMG_3234', 'IMG_3239','IMG_2815',
-            'IMG_3333', 'IMG_3448', 'IMG_3449', 'IMG_3645', 'IMG_3652',
-            'IMG_3673', 'IMG_3676', 'IMG_3683', 'IMG_3701', 'IMG_3721', 'IMG_3777', 'IMG_4042',
-            'IMG_4048', 'IMG_4119', 'IMG_4198', 'IMG_5045', 'IMG_5641', 'IMG_5756', 'IMG_5758', 'IMG_7040',
-            'IMG_7430', 'IMG_7449'
+            'IMG_0296', 'IMG_0745', 'IMG_1311', 'IMG_0818', 'IMG_2182', 'IMG_1310', 
+            'IMG_1633', 'IMG_1899', 'IMG_1933', 'IMG_2032', 'IMG_2118', 'IMG_2373', 
+            'IMG_2400', 'IMG_2473', 'IMG_2869', 'IMG_2952', 'IMG_3004', 'IMG_3234',
+            'IMG_3239', 'IMG_2815', 'IMG_3333', 'IMG_3448', 'IMG_3449', 'IMG_3645',
+            'IMG_3652', 'IMG_3673', 'IMG_3676', 'IMG_3683', 'IMG_3701', 'IMG_3721',
+            'IMG_3777', 'IMG_4042', 'IMG_4048', 'IMG_4119', 'IMG_4198', 'IMG_5045',
+            'IMG_5641', 'IMG_5756', 'IMG_5758', 'IMG_7040', 'IMG_7430', 'IMG_7449'
         ].map(name => ({
             image: `./images/portfolio/${name}.jpg`,
             caption: '',
@@ -75,17 +75,15 @@ class PortfolioSite {
     }
     
     bindEvents() {
-        // События галереи (стрелки убраны)
-        
-        // Перетаскивание мышью для галереи
+        // События галереи
         this.portfolioScrollContainer?.addEventListener('mousedown', (e) => this.startDrag(e));
         this.portfolioScrollContainer?.addEventListener('mousemove', (e) => this.drag(e));
         this.portfolioScrollContainer?.addEventListener('mouseup', () => this.endDrag());
         this.portfolioScrollContainer?.addEventListener('mouseleave', () => this.endDrag());
         
         // Для сенсорных устройств
-        this.portfolioScrollContainer?.addEventListener('touchstart', (e) => this.startDrag(e.touches[0]));
-        this.portfolioScrollContainer?.addEventListener('touchmove', (e) => this.drag(e.touches[0]));
+        this.portfolioScrollContainer?.addEventListener('touchstart', (e) => this.startDrag(e));
+        this.portfolioScrollContainer?.addEventListener('touchmove', (e) => this.drag(e));
         this.portfolioScrollContainer?.addEventListener('touchend', () => this.endDrag());
         
         // События модального окна
@@ -131,7 +129,7 @@ class PortfolioSite {
         });
     }
     
-    // ===== ЛОАДЕР =====
+    // ===== ЛОАДЕР С ОПТИМИЗИРОВАННОЙ АНИМАЦИЕЙ =====
     initLoader() {
         const name = "Фахартымова Диана";
         const subtitle = "Профессиональный художник";
@@ -242,7 +240,9 @@ class PortfolioSite {
                 <img src="${item.image}" 
                      alt="Работа ${index + 1}" 
                      loading="lazy"
-                     draggable="false">
+                     draggable="false"
+                     width="300"
+                     height="400">
             `;
             
             portfolioItem.addEventListener('click', (e) => {
@@ -276,31 +276,10 @@ class PortfolioSite {
         
         // Вычисляем максимальный скролл
         this.galleryWidth = this.portfolioScrollContainer.offsetWidth;
-        this.maxScroll = this.gridWidth - this.galleryWidth;
-        
-        // Инициализируем прогресс бар
-        this.initProgressBar();
+        this.maxScroll = Math.max(0, this.gridWidth - this.galleryWidth);
     }
     
-    initProgressBar() {
-        const progressBar = document.createElement('div');
-        progressBar.className = 'portfolio-scroll-progress';
-        progressBar.innerHTML = '<div class="portfolio-scroll-fill"></div>';
-        
-        this.portfolioScrollContainer.appendChild(progressBar);
-        
-        this.updateProgressBar();
-    }
-    
-    updateProgressBar() {
-        const progressFill = document.querySelector('.portfolio-scroll-fill');
-        if (!progressFill || this.maxScroll <= 0) return;
-        
-        const progress = Math.abs(this.currentTranslate) / this.maxScroll * 100;
-        progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
-    }
-    
-    // Функции для плавного перетаскивания
+    // Функции для плавного перетаскивания (ИСПРАВЛЕННЫЕ)
     startDrag(e) {
         this.isDragging = true;
         this.portfolioScrollContainer.classList.add('dragging');
@@ -311,7 +290,7 @@ class PortfolioSite {
         
         this.startX = this.getPositionX(e);
         this.prevTranslate = this.currentTranslate;
-        this.lastTime = Date.now();
+        this.lastTime = performance.now();
         this.lastPosition = this.currentTranslate;
         
         this.portfolioGrid.style.transition = 'none';
@@ -319,6 +298,8 @@ class PortfolioSite {
     
     drag(e) {
         if (!this.isDragging) return;
+        
+        e.preventDefault();
         
         const currentX = this.getPositionX(e);
         const deltaX = currentX - this.startX;
@@ -328,7 +309,7 @@ class PortfolioSite {
         
         this.portfolioGrid.style.transform = `translateX(${this.currentTranslate}px)`;
         
-        const currentTime = Date.now();
+        const currentTime = performance.now();
         const deltaTime = currentTime - this.lastTime;
         
         if (deltaTime > 0) {
@@ -336,8 +317,6 @@ class PortfolioSite {
             this.lastPosition = this.currentTranslate;
             this.lastTime = currentTime;
         }
-        
-        this.updateProgressBar();
     }
     
     endDrag() {
@@ -367,8 +346,6 @@ class PortfolioSite {
             
             this.portfolioGrid.style.transform = `translateX(${this.currentTranslate}px)`;
             
-            this.updateProgressBar();
-            
             if (Math.abs(this.velocity) > minVelocity) {
                 this.animationID = requestAnimationFrame(animateInertia);
             } else {
@@ -387,13 +364,28 @@ class PortfolioSite {
         
         this.currentTranslate = snapPosition;
         this.portfolioGrid.style.transform = `translateX(${this.currentTranslate}px)`;
-        
-        this.updateProgressBar();
     }
     
-    // Вспомогательная функция для получения позиции X
+    // Вспомогательная функция для получения позиции X (ИСПРАВЛЕННАЯ)
     getPositionX(e) {
-        return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        if (!e) return 0;
+        
+        // Для мышиных событий
+        if (e.clientX !== undefined) {
+            return e.clientX;
+        }
+        
+        // Для touch событий
+        if (e.touches && e.touches[0]) {
+            return e.touches[0].clientX;
+        }
+        
+        // Для старых событий mouse
+        if (e.pageX !== undefined) {
+            return e.pageX;
+        }
+        
+        return 0;
     }
     
     // ===== ЛАЙТБОКС =====
@@ -480,15 +472,38 @@ class PortfolioSite {
         const formData = new FormData(this.bookingForm);
         const data = Object.fromEntries(formData);
         
+        // Добавляем тему письма
+        data._subject = `Новая заявка: ${data.service || data.serviceType || 'Услуга'}`;
+        
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Отправка формы на Formspree
+            const response = await fetch('https://formspree.io/f/maqdnbyn', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
             
-            alert('Спасибо! Ваша заявка отправлена. Я свяжусь с вами в ближайшее время.');
-            this.closeModal();
+            if (response.ok) {
+                alert('Спасибо! Ваша заявка отправлена. Я свяжусь с вами в ближайшее время.');
+                this.closeModal();
+            } else {
+                // Попробуем получить текст ошибки от Formspree
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Ошибка при отправке формы');
+            }
             
         } catch (error) {
             console.error('Ошибка отправки формы:', error);
-            alert('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз.');
+            
+            // Показываем более информативное сообщение об ошибке
+            if (error.message.includes('Failed to fetch')) {
+                alert('Проблема с соединением. Проверьте интернет и попробуйте еще раз.');
+            } else {
+                alert(`Произошла ошибка при отправке: ${error.message}. Пожалуйста, попробуйте еще раз или свяжитесь со мной через Telegram.`);
+            }
         } finally {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
@@ -507,26 +522,61 @@ class PortfolioSite {
             if (e.key === 'ArrowRight') this.showNextImage();
         }
         
-        if (!this.modal?.classList.contains('active') && !this.lightbox?.classStack.contains('active')) {
+        if (!this.modal?.classList.contains('active') && !this.lightbox?.classList.contains('active')) {
             if (e.key === 'ArrowLeft') {
                 this.currentTranslate = Math.min(this.currentTranslate + 400, 0);
                 this.portfolioGrid.style.transform = `translateX(${this.currentTranslate}px)`;
-                this.updateProgressBar();
             }
             if (e.key === 'ArrowRight') {
                 this.currentTranslate = Math.max(this.currentTranslate - 400, -this.maxScroll);
                 this.portfolioGrid.style.transform = `translateX(${this.currentTranslate}px)`;
-                this.updateProgressBar();
             }
         }
     }
     
+    // ===== ИНИЦИАЛИЗАЦИЯ СКРОЛЛА =====
+    initScroll() {
+        // Оптимизация: предзагрузка изображений при простое
+        let idleCallbackId = null;
+        
+        const preloadVisibleImages = () => {
+            if (idleCallbackId) {
+                cancelIdleCallback(idleCallbackId);
+            }
+            
+            if ('requestIdleCallback' in window) {
+                idleCallbackId = requestIdleCallback(() => {
+                    // Предзагружаем изображения в viewport
+                    const viewportImages = this.portfolioGrid?.querySelectorAll('img');
+                    if (viewportImages) {
+                        viewportImages.forEach(img => {
+                            if (img.getBoundingClientRect().top < window.innerHeight * 2) {
+                                const src = img.getAttribute('data-src') || img.src;
+                                if (src && !img.complete) {
+                                    const preloadImg = new Image();
+                                    preloadImg.src = src;
+                                }
+                            }
+                        });
+                    }
+                }, { timeout: 2000 });
+            }
+        };
+        
+        // Запускаем предзагрузку при скролле
+        window.addEventListener('scroll', preloadVisibleImages, { passive: true });
+        
+        // И при загрузке страницы
+        window.addEventListener('load', preloadVisibleImages);
+    }
+    
     // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
     preloadImages() {
-        this.portfolioItems.forEach(item => {
+        // Предзагружаем только первые 5 изображений
+        for (let i = 0; i < Math.min(5, this.portfolioItems.length); i++) {
             const img = new Image();
-            img.src = item.image;
-        });
+            img.src = this.portfolioItems[i].image;
+        }
     }
 }
 
@@ -536,6 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const site = new PortfolioSite();
     
+    // Предзагрузка критических изображений
     setTimeout(() => {
         site.preloadImages();
     }, 1000);

@@ -2332,11 +2332,11 @@ body::before {
     }
 }
 .fof{
-    font-size: 11pt;
+    font-size: 14pt;
     text-align: center;
-    opacity: 0.8;
-    color: grey;
-    margin-bottom: 1.5rem;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
 }
 
 /* Стили для кликабельного контакта Telegram */

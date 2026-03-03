@@ -2,16 +2,86 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Фахартымова Диана | Художник</title>
-    <meta name="description" content="Профессиональная художественная роспись, граффити, аэрография на стенах. Более 12 лет опыта.">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ОСНОВНЫЕ SEO МЕТА-ТЕГИ -->
+    <title>Фахартымова Диана | Художественная роспись стен, граффити и аэрография в Москве</title>
+    <meta name="description" content="Художник Диана Фахартымова: более 12 лет опыта. Роспись стен в интерьере, граффити на заказ, аэрография. Разработка эскиза бесплатно. Портфолио и цены на artdiana138.ru.">
+    <meta name="keywords" content="художественная роспись стен, граффити на заказ, аэрография, художник Москва, роспись детской комнаты, фасадная роспись, портфолио художника, Фахартымова Диана">
+    <meta name="author" content="Фахартымова Диана">
+    <meta name="robots" content="index, follow">
+
+    <!-- КАНОНИЧЕСКАЯ ССЫЛКА (важно, чтобы не было дублей) -->
+    <link rel="canonical" href="https://artdiana138.ru/">
+
+    <!-- OPEN GRAPH (ДЛЯ СОЦСЕТЕЙ) -->
+    <meta property="og:title" content="Фахартымова Диана | Художественная роспись стен">
+    <meta property="og:description" content="Профессиональная роспись интерьеров и фасадов. 12 лет опыта. Бесплатный эскиз.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://artdiana138.ru/">
+    <meta property="og:image" content="https://artdiana138.ru/icon.png"> <!-- Укажите ссылку на превью для соцсетей -->
+    <meta property="og:site_name" content="Фахартымова Диана | Художник">
+
+    <!-- FAVICONS (оставляем ваши) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon.png">
+    <!-- Дубль с эмодзи можно убрать, он лишний -->
+
+    <!-- ШРИФТЫ И СТИЛИ (оставляем как есть) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+
+    <!-- МИКРОРАЗМЕТКА (JSON-LD) - добавить перед </head> -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Фахартымова Диана",
+      "description": "Художник с 12-летним опытом, специализирующийся на росписи стен, граффити и аэрографии.",
+      "image": "https://artdiana138.ru/icon.png",
+      "url": "https://artdiana138.ru/",
+      "sameAs": [
+        "https://instagram.com/ваш_аккаунт",
+        "https://vk.com/ваш_аккаунт"
+      ],
+      "knowsAbout": [
+        "Художественная роспись стен",
+        "Граффити",
+        "Аэрография",
+        "Интерьерная живопись",
+        "Фасадная роспись"
+      ],
+      "offers": {
+        "@type": "OfferCatalog",
+        "name": "Услуги художника",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "name": "Роспись стен",
+            "description": "Художественная роспись стен в интерьерах и экстерьерах",
+            "price": "3000",
+            "priceCurrency": "RUB"
+          },
+          {
+            "@type": "Offer",
+            "name": "Аэрография",
+            "price": "8000",
+            "priceCurrency": "RUB"
+          },
+          {
+            "@type": "Offer",
+            "name": "Граффити",
+            "price": "10000",
+            "priceCurrency": "RUB"
+          }
+        ]
+      }
+    }
+    </script>
 </head>
 <body>
 <div class="loader">
@@ -86,7 +156,7 @@
             <div class="about-photo">
                 <div class="photo-frame">
                     <div class="photo-glow"></div>
-                    <img src="./images/main_photo.png" alt="Фахартымова Диана" class="photo-real">
+                    <img src="./images/main_photo.webp" alt="Фахартымова Диана" class="photo-real">
 
                 </div>
             </div>
@@ -152,7 +222,7 @@
                 <div class="services-grid">
                     <div class="service-card">
                         <div class="service-image">
-                            <img src="./images/rospis.PNG" 
+                            <img src="./images/rospis.webp" 
                                  alt="Роспись стен">
                         </div>
                         <div class="service-content">
@@ -167,7 +237,7 @@
                     
                     <div class="service-card">
                         <div class="service-image">
-                            <img src="./images/agrafia.jpg" 
+                            <img src="./images/agrafia.webp" 
                                  alt="Аэрография">
                         </div>
                         <div class="service-content">
@@ -182,7 +252,7 @@
                     
                     <div class="service-card">
                         <div class="service-image">
-                            <img src="./images/grafiti-two.PNG" 
+                            <img src="./images/grafiti-two.webp" 
                                  alt="Граффити">
                         </div>
                         <div class="service-content">
@@ -197,7 +267,7 @@
                     
                     <div class="service-card">
                         <div class="service-image">
-                            <img src="./images/cartinka.jpg" 
+                            <img src="./images/cartinka.webp" 
                                  alt="Картины на заказ">
                         </div>
                         <div class="service-content">

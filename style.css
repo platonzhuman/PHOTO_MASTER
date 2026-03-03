@@ -295,7 +295,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('./images/obo_mne_photo.png');
+    background-image: url('./images/obo_mne_photo.webp');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -895,7 +895,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('./images/contact.png');
+    background-image: url('./images/contact.webp');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
